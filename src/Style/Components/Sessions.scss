@@ -1,0 +1,27 @@
+.tooltip-session > p {
+  background-color: #fff;
+  color: black;
+  font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  line-height: 14px;
+  padding: 10px;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.div-perf-sessions {
+  position: relative;
+  .div-session {
+    position: absolute;
+    left: 182px;
+    // top: 56px;
+  }
+}
+
+.p-session {
+  position: absolute;
+  font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  top: 10%;
+  left: 1%;
+  transform: translateY(-50%);
+  color: #fff;
+}

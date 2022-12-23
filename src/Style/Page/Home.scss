@@ -1,0 +1,51 @@
+.div-home-right {
+  display: flex;
+  justify-content: flex-end;
+  align-items: end;
+}
+.nameUser {
+  padding: 0 181px;
+}
+.blocks-energy {
+  position: absolute;
+  left: 73%;
+  top: 28%;
+}
+@media screen and (max-width: 1024px) {
+  .div-activity + .blocks-energy + .div-score {
+    height: 200px;
+    width: 50%;
+  }
+
+  .div-home {
+    height: auto;
+  }
+
+  .nav-itmes {
+    padding: 0 0;
+  }
+
+  .div-activity {
+    width: 829px;
+    height: 318px;
+  }
+  .blocks-energy {
+    position: absolute;
+    left: 76%;
+    top: 20%;
+  }
+
+  .blocks-energy {
+    position: relative;
+    left: 252px;
+    top: -326px;
+    }
+
+  .navbar {
+    width: 126vw;
+  }
+
+  .div-score {
+    margin-left: 14rem;
+}
+}

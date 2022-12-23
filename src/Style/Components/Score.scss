@@ -1,0 +1,37 @@
+.div-score {
+  background-color: #fbfbfb;
+  position: absolute;
+  left: 53.3%;
+  // margin: 53px 0;
+}
+.titre-score{
+    position: absolute;
+    top:11px;
+    left: 10px;
+    font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+.div-resultat-score {
+  position: absolute;
+  top: 30%;
+  left: 39%;
+
+  .p-result-score {
+    font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 19px;
+    font-weight: 700;
+  }
+  .p-text-score {
+    font: bold 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+    margin-top: -19px;
+  }
+  p {
+    writing-mode: vertical-rl;
+    text-orientation: sideways;
+    color: black;
+    font-size: 14px;
+  }
+}
+
+
+
