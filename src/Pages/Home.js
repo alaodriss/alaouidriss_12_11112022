@@ -1,6 +1,3 @@
-
-
-
 import React from "react";
 import { useState, useEffect } from "react";
 import { getAllDatasMocked, getAllDatas } from "../Api/DataApi";
@@ -36,136 +33,138 @@ function Home() {
 
   let { userId } = useParams();
 
-/**
- *  redirection user
- * @userId => id 
- */
+  /**
+   *  redirection user
+   * @userId => id
+   */
 
-  useEffect(() => {
-    async function getUserData() {
+
+  let dataBackend = false ;
+
+  async function getUserData() {
+    try {
+      dataBackend = true
+      const userDatas = await getAllDatas(userId);
+
+      const user = new User(userDatas.user.data);
+      const perf = new Perf(userDatas.perf.data);
+      const average = new Average(userDatas.average.data);
+      // console.log(userDatas.activity.data.data.sessions)
+      const session = new Session(userDatas.activity.data.data.sessions);
+
+      console.log(session);
+
+      // Placement of data in the useState
+      setGetUserDatas(user.data);
+      setGetActivityDatas(session.props);
+      setGetPerfDatas(perf.data);
+      setGetAverageDatas(average.data);
+
+      setIsData(true);
+    } catch (error) {
+      setIsData(false);
+    }
+  }
+
+
+  async function switchDataUser () {
+
+    if(dataBackend === false) {
       try {
-        const userDatas = await getAllDatas(userId);
 
-        const user = new User(userDatas.user.data);
-        const perf = new Perf(userDatas.perf.data);
-        const average = new Average(userDatas.average.data);
-        // console.log(userDatas.activity.data.data.sessions)
-        const session = new Session(userDatas.activity.data.data.sessions);
+        /**
+         * local == Data Moked
+         */
+        const userDatas = await getAllDatasMocked();
 
-        console.log(session);
+        const user = new User(userDatas.user);
+        const perf = new Perf(userDatas.perf);
+        const average = new Average(userDatas.average);
+        const session = new Session(userDatas.session);
 
-        // Placement of data in the useState
-        setGetUserDatas(user.data);
-        setGetActivityDatas(session.props);
-        setGetPerfDatas(perf.data);
-        setGetAverageDatas(average.data);
 
+        setGetUserDatas(user.props);
+        setGetPerfDatas(perf.props);
+        setGetAverageDatas(average.props);
+        setGetActivityDatas(session.props.sessions);
         setIsData(true);
+
       } catch (error) {
+
         setIsData(false);
       }
+    } else {
+      return getUserData()
     }
-    getUserData();
-  }, []);
 
 
-/**
- * local == Data Moked
- * if i actived the function getAllDatasMocked i switch to datamock 
- */
+  }
 
 
-  //   useEffect(() => {
-  //     async function getMockedDatas() {
-  //       try {
-  //         if (!firstFetch) {
-  //           const userDatas = await getAllDatasMocked();
+  switchDataUser ()
 
-  //           const user = new User(userDatas.user);
-  //           const perf = new Perf(userDatas.perf);
-  //           const average = new Average(userDatas.average);
-  //           const session = new Session(userDatas.session);
-
-  //           // Placement of data in the useState
-  //           setGetUserDatas(user.props);
-  //           setGetPerfDatas(perf.props);
-  //           setGetAverageDatas(average.props);
-  //           setGetActivityDatas(session.props.sessions);
-
-  //           // setGetError(false);
-  //           setIsData(true);
-  //         }
-  //       } catch (error) {
-  //         // setGetError(true);
-  //         setFirstFetch(false);
-  //         setIsData(false);
-  //       }
-  //     }
-  //     getMockedDatas();
-  //   }, []);
-  // // }
 
   if (isData !== undefined) {
     data2 = "1";
   }
 
   return isData ? (
-    <div className="div-home">
-      <div className="nameUser">
-        <h1 style={{ color: "red" }}>
-          Bonjour {getUserDatas.userInfos.firstName}{" "}
-        </h1>
-        <h3>Félicitation ! Vous avez explosé vos objectifs hier 👏</h3>
-      </div>
-
-      <div className="div-activity-home">
-        <Activity dataAc={getActivityDatas} />
-      </div>
-
-      <div className="tree-blocks">
-        <div className="div-perf-home">
-          <Performance dataPerf={getPerfDatas.data} />
+      <div className="div-home">
+        <div className="nameUser">
+          <h1 style={{ color: "red" }}>
+            Bonjour {getUserDatas.userInfos.firstName}{" "}
+          </h1>
+          <h3>Félicitation ! Vous avez explosé vos objectifs hier 👏</h3>
         </div>
 
-        <div className="div-score-home">
-          <Score
-            dataSc={getUserDatas.todayScore}
-            dataSc2={getUserDatas.score}
-          />
+        <div className="div-activity-home">
+          <Activity dataAc={getActivityDatas} />
         </div>
 
-        <div className="div-perf-sessions">
-          <Sessions dataAv={getAverageDatas.sessions} />
-        </div>
-      </div>
+        <div className="tree-blocks">
+          <div className="div-perf-home">
+            <Performance dataPerf={getPerfDatas.data} />
+          </div>
 
-      <div className="div-home-right">
-        <div className="blocks-energy">
-          <Nutrition
-            image={fire}
-            data={getUserDatas.keyData.calorieCount + "KCal"}
-            text="Calories"
-          />
-          <Nutrition
-            image={chicken}
-            data={getUserDatas.keyData.proteinCount + "g"}
-            text="Protines"
-          />
-          <Nutrition
-            image={apple}
-            data={getUserDatas.keyData.carbohydrateCount + "g"}
-            text="Glucides"
-          />
-          <Nutrition
-            image={hamburger}
-            data={getUserDatas.keyData.lipidCount + "g"}
-            text="Lipides"
-          />
+          <div className="div-score-home">
+            <Score
+                dataSc={getUserDatas.todayScore}
+                dataSc2={getUserDatas.score}
+            />
+          </div>
+
+          <div className="div-perf-sessions">
+            <Sessions dataAv={getAverageDatas.sessions} />
+          </div>
+        </div>
+
+        <div className="div-home-right">
+          <div className="blocks-energy">
+            <Nutrition
+                image={fire}
+                data={getUserDatas.keyData.calorieCount + "KCal"}
+                text="Calories"
+            />
+            <Nutrition
+                image={chicken}
+                data={getUserDatas.keyData.proteinCount + "g"}
+                text="Protines"
+            />
+            <Nutrition
+                image={apple}
+                data={getUserDatas.keyData.carbohydrateCount + "g"}
+                text="Glucides"
+            />
+            <Nutrition
+                image={hamburger}
+                data={getUserDatas.keyData.lipidCount + "g"}
+                text="Lipides"
+            />
+          </div>
         </div>
       </div>
-    </div>
   ) : (
-    data2 === "1" && <Erreur404 />
+      data2 === "1" && <Erreur404 />
   );
 }
 export default Home;
